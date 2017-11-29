@@ -6,7 +6,7 @@ HWND hMainWindow;
 HDC hMemDC, hBlockDC;
 HBITMAP hMemPrev, hBlockPrev;
 
-int board[12][25];
+int board[12][25];//横10　縦20の中でテトリス開始
 
 typedef struct TAG_POSITION {
 	int x;
@@ -17,7 +17,15 @@ typedef struct TAG_BLOCK {
 	int rotate;
 	POSITION p[3];
 }BLOCK;
-
+//ブロック8種
+//NULL
+//1
+//L1
+//L2
+//key1
+//key2
+//T
+//square
 BLOCK block[8] = {
 	{ 1,{ { 0,0 },{ 0,0 },{ 0,0 } } },
 	{ 2,{ { 0,-1 },{ 0,1 },{ 0,2 } } },
@@ -28,7 +36,8 @@ BLOCK block[8] = {
 	{ 1,{ { 0,1 },{ 1,0 },{ 1,1 } } },
 	{ 4,{ { 0,-1 },{ 1,0 },{ -1,0 } } },
 };
-
+//落下中のブロック状態
+//x,y座標　typeブロックの種類　rotate回転パターン何番目
 typedef struct TAG_STATUS {
 	int x;
 	int y;
@@ -176,7 +185,7 @@ void blockDown() {
 		}
 	}
 }
-
+//ウィンドウの初期設定　ブロックの出現位置
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	switch (msg) {
 	case WM_CREATE: {
@@ -259,19 +268,19 @@ int WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdLine, int cmdShow) {
 	WNDCLASSEX wc;
 	static LPCTSTR pClassName = "NicoNicoProgramming2";
 
-	wc.cbSize = sizeof(WNDCLASSEX);
-	wc.style = CS_HREDRAW | CS_VREDRAW;
-	wc.lpfnWndProc = (WNDPROC)WndProc;
-	wc.cbClsExtra = 0;
-	wc.cbWndExtra = 0;
-	wc.hInstance = hInst;
-	wc.hIcon = NULL;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	wc.lpszMenuName = NULL;
-	wc.lpszClassName = pClassName;
-	wc.hIconSm = NULL;
-
+	wc.cbSize = sizeof(WNDCLASSEX);                     //構造体サイズ
+	wc.style = CS_HREDRAW | CS_VREDRAW;                 //スタイル
+	wc.lpfnWndProc = (WNDPROC)WndProc;                  
+	wc.cbClsExtra = 0;                                  //補足メモリブロック
+	wc.cbWndExtra = 0;                                  //のサイズ
+	wc.hInstance = hInst;                               //インスタンス
+	wc.hIcon = NULL;                                    //アイコン
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);           //カーソル
+	wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);      //背景色
+	wc.lpszMenuName = NULL;                             //メニュー
+	wc.lpszClassName = pClassName;                      //クラス名
+	wc.hIconSm = NULL;                                  //小さいアイコン
+	  
 	if (!RegisterClassEx(&wc)) return FALSE;
 
 	RECT r;
