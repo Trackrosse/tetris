@@ -134,7 +134,7 @@ bool processInput() {
 	return ret;
 }
 
-
+//タイマーを止めてブロックを全て赤にし、画面更新
 void gameOver() {
 	KillTimer(hMainWindow, 100);
 	for (int x = 1; x <= 10; x++) {
@@ -146,7 +146,7 @@ void gameOver() {
 	}
 	InvalidateRect(hMainWindow, NULL, false);
 }
-
+//ラインが揃ったら消す
 void deleteLine() {
 	for (int y = 1; y < 23; y++) {
 		bool flag = true;
@@ -166,7 +166,7 @@ void deleteLine() {
 		}
 	}
 }
-
+//ブロックの落下処理
 void blockDown() {
 	deleteBlock(current);
 	current.y--;
